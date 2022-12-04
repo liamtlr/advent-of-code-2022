@@ -13,7 +13,11 @@ for pair in input_data:
     elf_2_start = int(elf_2_start)
     elf_2_end = int(elf_2_end)
 
-    if elf_1_start <= elf_2_start and elf_1_end >= elf_2_end:
+    if elf_1_start <= elf_2_start and elf_1_end >= elf_2_start:
+        contained_count += 1
+    elif elf_1_end >= elf_2_end and elf_1_start <= elf_2_end:
+        contained_count += 1
+    elif elf_1_start <= elf_2_start and elf_1_end >= elf_2_end:
         contained_count += 1
     elif elf_2_start <= elf_1_start and elf_2_end >= elf_1_end:
         contained_count += 1
