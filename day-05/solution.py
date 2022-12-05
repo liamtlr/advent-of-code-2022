@@ -1,4 +1,3 @@
-from collections import deque
 import re
 
 with open('input_data.txt', 'r') as infile:
@@ -19,7 +18,7 @@ with open('input_data.txt', 'r') as infile:
                     stack.append(crate)
             except IndexError:
                 pass
-        crates_by_stack.append(deque(stack))
+        crates_by_stack.append(stack)
 
     commands = [
         re.findall(r'\d+', command)
@@ -28,9 +27,12 @@ with open('input_data.txt', 'r') as infile:
     for command in commands:
         num_crates, source, destination = command
         num_crates, source, destination = int(num_crates), int(source) - 1, int(destination) - 1
-        for _ in range(num_crates):
-            crate = crates_by_stack[source].popleft()
-            crates_by_stack[destination].appendleft(crate)
+        crates_to_move = crates_by_stack[source][:num_crates]
+        residual_crates = crates_by_stack[source][num_crates:]
+        existing_stack = crates_by_stack[destination]
+        crates_to_move.extend(existing_stack)
+        crates_by_stack[destination] = crates_to_move
+        crates_by_stack[source] = residual_crates
     tops = [stack[0] for stack in crates_by_stack]
 
     print(''.join(tops))
