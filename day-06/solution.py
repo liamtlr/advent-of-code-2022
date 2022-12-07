@@ -3,9 +3,11 @@ with open('input_data.txt', 'r') as infile:
 
     value = None
 
-    for i in range(4, len(input_data)):
-        checker = set(input_data[i-4:i])
-        if len(checker) == 4:
+    PACKET_SIZE = 14
+
+    for i in range(PACKET_SIZE, len(input_data)):
+        checker = set(input_data[i-PACKET_SIZE:i])
+        if len(checker) == PACKET_SIZE:
             value = i
             break
 
