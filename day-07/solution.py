@@ -6,6 +6,8 @@ with open('input_data.txt', 'r') as infile:
 CHANGE_DIRECTORY = '$ cd'
 GO_UP = '..'
 MAX_FOLDER_SIZE = 100000
+REQUIRED_SPACE = 30000000
+TOTAL_SPACE = 70000000
 folders = {}
 breadcrumb = []
 
@@ -40,5 +42,9 @@ else:
     for parent in breadcrumb:
         folders[parent] += current_directory_size
 
-folder_gen = (total for total in folders.values() if total <= MAX_FOLDER_SIZE)
-print(sum(folder_gen))
+total_size = folders['/']
+available_space = 70000000 - total_size
+space_to_free = REQUIRED_SPACE - available_space
+folder_gen = (total for total in folders.values() if total >= space_to_free)
+
+print(min(folder_gen))
